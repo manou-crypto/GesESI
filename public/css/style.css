@@ -1,0 +1,229 @@
+:root {
+    --primary-color: #00BFFF;
+    --secondary-color: #87CEEB;
+    --accent-color: #0097a7;
+    
+    /* Variables thémables (Version Claire par défaut) */
+    --body-bg: #f8fafc;
+    --card-bg: #ffffff;
+    --navbar-bg: #ffffff;
+    --sidebar-gradient: linear-gradient(180deg, #87CEEB 0%, #00BFFF 100%);
+    --text-main: #334155;
+    --text-muted: #64748b;
+    --text-on-primary: #ffffff;
+    --border-color: #e2e8f0;
+    --input-bg: #ffffff;
+    --table-header-bg: #2c3e50;
+    --table-hover: #f1f5f9;
+}
+
+/* OVERRIDES POUR LE MODE NUIT */
+body.dark-theme {
+    --body-bg: #0f172a;
+    --card-bg: #1e293b;
+    --navbar-bg: #1e293b;
+    --sidebar-gradient: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+    --text-main: #f1f5f9;
+    --text-muted: #94a3b8;
+    --border-color: #334155;
+    --input-bg: #334155;
+    --table-header-bg: #0f172a;
+    --table-hover: #1e293b;
+}
+
+body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background-color: var(--body-bg);
+    color: var(--text-main);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ================= LOGIN PAGE ================= */
+.login-page {
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80') no-repeat center center;
+    background-size: cover;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    color: white;
+}
+
+.login-left h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+}
+
+.login-left p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #e0e0e0;
+    margin-bottom: 30px;
+}
+
+.login-socials a {
+    color: white;
+    font-size: 1.5rem;
+    margin-right: 15px;
+    transition: color 0.3s;
+}
+
+.login-socials a:hover {
+    color: var(--secondary-color);
+}
+
+.login-right {
+    padding: 30px;
+}
+
+.login-right .card {
+    background-color: rgba(255,255,255,0.95);
+    color: #333;
+}
+
+.login-right form label {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.login-right .btn-primary {
+    background-color: #e67e22; 
+    border-color: #e67e22;
+    padding: 10px;
+    font-weight: bold;
+    width: 100%;
+}
+
+.login-right .btn-primary:hover {
+    background-color: #d35400;
+    border-color: #d35400;
+}
+
+/* ================= DASHBOARD LAYOUT ================= */
+.wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+#sidebar {
+    min-width: 260px;
+    max-width: 260px;
+    background: var(--sidebar-gradient);
+    color: var(--text-on-primary);
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    overflow-y: auto;
+    border-right: 1px solid var(--border-color);
+}
+
+#sidebar.collapsed {
+    margin-left: -260px;
+}
+
+#sidebar .sidebar-header {
+    padding: 24px;
+    background: rgba(0,0,0,0.1);
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+#sidebar ul.components {
+    padding: 20px 0;
+}
+
+#sidebar ul li a {
+    padding: 15px 20px;
+    font-size: 1.1em;
+    display: block;
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+#sidebar ul li a:hover, #sidebar ul li.active > a {
+    color: #fff;
+    background: rgba(255,255,255,0.1);
+    border-left: 4px solid #fff;
+}
+
+/* Content Area */
+#content {
+    width: 100%;
+    margin-left: 260px;
+    padding: 20px;
+    min-height: 100vh;
+    transition: all 0.3s ease;
+    background-color: var(--body-bg);
+}
+
+#content.full-width {
+    margin-left: 0;
+}
+
+/* Navbar Dashboard */
+.navbar-custom {
+    background-color: var(--navbar-bg) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    color: var(--text-main);
+}
+
+.text-muted {
+    color: var(--text-muted) !important;
+}
+
+/* Cartes et Éléments UI */
+.card {
+    background-color: var(--card-bg) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-main);
+}
+
+.table {
+    color: var(--text-main) !important;
+}
+
+.table-hover tbody tr:hover {
+    background-color: var(--table-hover) !important;
+    color: var(--text-main) !important;
+}
+
+.table thead {
+    background-color: var(--table-header-bg) !important;
+    color: white !important;
+}
+
+.form-control, .form-select {
+    background-color: var(--input-bg) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-main) !important;
+}
+
+.form-control:focus, .form-select:focus {
+    background-color: var(--input-bg) !important;
+    color: var(--text-main) !important;
+}
+
+/* Thème spécifique pour les dossiers (folders) */
+.folder-card {
+    background-color: var(--card-bg) !important;
+    transition: all 0.2s ease;
+}
+.folder-card:hover { border-color: var(--primary-color) !important; }
+
+/* Styles pour le bouton de switch */
+#themeSwitch i {
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+/* Responsivité Mobile */
+@media (max-width: 768px) {
+    #sidebar { margin-left: -260px; }
+    #sidebar.active { margin-left: 0; }
+    #content { margin-left: 0; }
+}
