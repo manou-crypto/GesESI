@@ -49,7 +49,9 @@ CREATE TABLE IF NOT EXISTS staff (
     nom VARCHAR(100) NOT NULL,
     prenom VARCHAR(100) NOT NULL,
     fk_user INT NOT NULL,
-    FOREIGN KEY (fk_user) REFERENCES utilisateur(id_user) ON DELETE CASCADE
+    fk_classe INT NULL,
+    FOREIGN KEY (fk_user) REFERENCES utilisateur(id_user) ON DELETE CASCADE,
+    FOREIGN KEY (fk_classe) REFERENCES classe(id_classe) ON DELETE SET NULL
 );
 
 -- 4. Structure académique

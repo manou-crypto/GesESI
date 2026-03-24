@@ -50,10 +50,24 @@ class CourseController extends Controller {
     }
 
     public function create() {
+        $db = Database::getInstance();
+        $professors = $db->query("SELECT * FROM professeur ORDER BY nom, prenom")->fetchAll();
+        
+        if ($_SESSION['role'] === 'responsable') {
+            $id_classe = $_SESSION['id_classe'] ?? null;
+            $classes = $db->prepare("SELECT * FROM classe WHERE id_classe = ?");
+            $classes->execute([$id_classe]);
+            $classes = $classes->fetchAll();
+        } else {
+            $classes = $db->query("SELECT * FROM classe ORDER BY nom_classe")->fetchAll();
+        }
+
         $this->view('course/form', [
             'action' => 'store',
             'title' => 'Ajouter un Cours/Matière',
-            'course' => null
+            'course' => null,
+            'professors' => $professors,
+            'classes' => $classes
         ]);
     }
 
@@ -62,25 +76,56 @@ class CourseController extends Controller {
             $db = Database::getInstance();
             $ue = Security::escape($_POST['ue_nom']);
             $nom = Security::escape($_POST['libelle']);
-            $coeff = (int) $_POST['coefficient'];
+            $coeff = (float) $_POST['coefficient'];
             
             $stmt = $db->prepare("INSERT INTO cours (ue_nom, libelle, coefficient) VALUES (?, ?, ?)");
             $stmt->execute([$ue, $nom, $coeff]);
+            $course_id = $db->lastInsertId();
+
+            // Affectation optionnelle
+            $fk_prof = $_POST['fk_prof'] ?? null;
+            $fk_classe = $_POST['fk_classe'] ?? null;
+            $stmtYear = $db->query("SELECT id_annee FROM annee_academique WHERE est_active = 1 LIMIT 1");
+            $year = $stmtYear->fetch();
+
+            if ($year && $fk_prof && $fk_classe) {
+                $stmtAff = $db->prepare("INSERT INTO affectation_cours (fk_prof, fk_cours, fk_classe, fk_annee) VALUES (?, ?, ?, ?)");
+                $stmtAff->execute([$fk_prof, $course_id, $fk_classe, $year->id_annee]);
+            }
+
             $this->redirect('course');
         }
     }
 
     public function edit($id) {
         $db = Database::getInstance();
-        $stmt = $db->prepare("SELECT * FROM cours WHERE id_cours = ?");
+        $stmt = $db->prepare("
+            SELECT co.*, ac.fk_prof, ac.fk_classe 
+            FROM cours co
+            LEFT JOIN affectation_cours ac ON co.id_cours = ac.fk_cours AND ac.fk_annee = (SELECT id_annee FROM annee_academique WHERE est_active = 1 LIMIT 1)
+            WHERE co.id_cours = ?
+        ");
         $stmt->execute([$id]);
         $c = $stmt->fetch();
+
+        $professors = $db->query("SELECT * FROM professeur ORDER BY nom, prenom")->fetchAll();
+        
+        if ($_SESSION['role'] === 'responsable') {
+            $id_classe = $_SESSION['id_classe'] ?? null;
+            $classes = $db->prepare("SELECT * FROM classe WHERE id_classe = ?");
+            $classes->execute([$id_classe]);
+            $classes = $classes->fetchAll();
+        } else {
+            $classes = $db->query("SELECT * FROM classe ORDER BY nom_classe")->fetchAll();
+        }
 
         if ($c) {
             $this->view('course/form', [
                 'action' => 'update/' . $id,
                 'title' => 'Modifier le Cours',
-                'course' => $c
+                'course' => $c,
+                'professors' => $professors,
+                'classes' => $classes
             ]);
         } else {
             $this->redirect('course');
@@ -92,10 +137,32 @@ class CourseController extends Controller {
             $db = Database::getInstance();
             $ue = Security::escape($_POST['ue_nom']);
             $nom = Security::escape($_POST['libelle']);
-            $coeff = (int) $_POST['coefficient'];
+            $coeff = (float) $_POST['coefficient'];
 
             $stmt = $db->prepare("UPDATE cours SET ue_nom = ?, libelle = ?, coefficient = ? WHERE id_cours = ?");
             $stmt->execute([$ue, $nom, $coeff, $id]);
+
+            // Mise à jour de l'affectation
+            $fk_prof = $_POST['fk_prof'] ?? null;
+            $fk_classe = $_POST['fk_classe'] ?? null;
+            $stmtYear = $db->query("SELECT id_annee FROM annee_academique WHERE est_active = 1 LIMIT 1");
+            $year = $stmtYear->fetch();
+
+            if ($year && $fk_prof && $fk_classe) {
+                // Check existante pour ce cours + classe (on suppose 1 prof par cours par classe)
+                $chk = $db->prepare("SELECT id_affectation FROM affectation_cours WHERE fk_cours = ? AND fk_classe = ? AND fk_annee = ?");
+                $chk->execute([$id, $fk_classe, $year->id_annee]);
+                $affectation = $chk->fetch();
+
+                if($affectation) {
+                    $upd = $db->prepare("UPDATE affectation_cours SET fk_prof = ? WHERE id_affectation = ?");
+                    $upd->execute([$fk_prof, $affectation->id_affectation]);
+                } else {
+                    $ins = $db->prepare("INSERT INTO affectation_cours (fk_prof, fk_cours, fk_classe, fk_annee) VALUES (?, ?, ?, ?)");
+                    $ins->execute([$fk_prof, $id, $fk_classe, $year->id_annee]);
+                }
+            }
+
             $this->redirect('course');
         }
     }
