@@ -16,7 +16,7 @@
                         <label>Prénom <span class="text-danger">*</span></label>
                         <input type="text" name="prenom" class="form-control" value="<?php echo isset($student) ? \App\Core\Security::escape($student->prenom) : ''; ?>" required>
                     </div>
-                    <?php if(!isset($student['id_etudiant'])): ?>
+                    <?php if(!$student): ?>
                     <div class="mb-3">
                         <label class="form-label fw-bold">Email de connexion <span class="text-danger">*</span></label>
                         <input type="email" name="email" class="form-control" required placeholder="Ex: e.nom@ecole.com">
