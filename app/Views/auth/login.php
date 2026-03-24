@@ -18,14 +18,14 @@
         <div class="row align-items-center">
             <!-- Left Side / Welcome Back -->
             <div class="col-md-6 login-left d-none d-md-block">
-                <h1>Welcome<br>Back</h1>
-                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using ...</p>
-                <div class="login-socials">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <h1>BIENVENUE !</h1>
+                <p>Connectez-vous pour accéder à votre espace ...</p>
+                 <!--<div class="login-socials">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a> 
                     <a href="#"><i class="fab fa-twitter"></i></a>
                     <a href="#"><i class="fab fa-instagram"></i></a>
                     <a href="#"><i class="fab fa-youtube"></i></a>
-                </div>
+                </div>-->
             </div>
 
             <!-- Right Side / Login Form -->
@@ -64,9 +64,9 @@
                         </div>
                     </form>
                     
-                    <div class="login-footer mt-5">
+                    <!--<div class="login-footer mt-5">
                         <p>By clicking on "Sign in now" you agree to<br>Terms of Service | Privacy Policy</p>
-                    </div>
+                    </div>-->
                 </div>
             </div>
         </div>
