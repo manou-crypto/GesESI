@@ -55,9 +55,9 @@ class ReportController extends Controller {
         $studentsDb->execute([$year->id_annee, $class_id]);
         $students = $studentsDb->fetchAll();
 
-        // Fetch all grades for this year and this class
+        // Fetch all grades for this year and this class (including coefficient)
         $gradesDb = $db->prepare("
-            SELECT n.fk_etudiant, n.fk_cours, n.valeur 
+            SELECT n.fk_etudiant, n.fk_cours, n.valeur, n.coefficient 
             FROM note n 
             JOIN inscription i ON n.fk_etudiant = i.fk_etudiant AND i.fk_annee = ?
             WHERE i.fk_annee = ? AND i.fk_classe = ?
@@ -67,7 +67,11 @@ class ReportController extends Controller {
         
         $gradesMap = []; 
         foreach($grades as $g) {
-            $gradesMap[$g->fk_etudiant][$g->fk_cours] = $g->valeur;
+            if(!isset($gradesMap[$g->fk_etudiant][$g->fk_cours])) {
+                $gradesMap[$g->fk_etudiant][$g->fk_cours] = ['sum' => 0, 'weight' => 0];
+            }
+            $gradesMap[$g->fk_etudiant][$g->fk_cours]['sum'] += ($g->valeur * ($g->coefficient ?? 1.0));
+            $gradesMap[$g->fk_etudiant][$g->fk_cours]['weight'] += ($g->coefficient ?? 1.0);
         }
 
         $reportData = [];
@@ -85,7 +89,9 @@ class ReportController extends Controller {
                 $uePoints = 0;
                 $ueCoefs = 0;
                 foreach($ueData['courses'] as $c) {
-                    $grade = $gradesMap[$st->id_etudiant][$c->id_cours] ?? null;
+                    $gradeData = $gradesMap[$st->id_etudiant][$c->id_cours] ?? null;
+                    $grade = ($gradeData && $gradeData['weight'] > 0) ? ($gradeData['sum'] / $gradeData['weight']) : null;
+                    
                     $stData['grades'][$c->id_cours] = $grade;
                     if($grade !== null) {
                         $uePoints += ($grade * $c->coefficient);

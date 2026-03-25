@@ -23,15 +23,15 @@ class Router {
         }
 
         // Vérification de l'existence du contrôleur
-        if (isset($url[0]) && file_exists('../app/Controllers/' . ucfirst($url[0]) . 'Controller.php')) {
+        if (isset($url[0]) && file_exists('app/Controllers/' . ucfirst($url[0]) . 'Controller.php')) {
             $this->controller = ucfirst($url[0]) . 'Controller';
             unset($url[0]);
         }
 
         // Require the controller and instantiate
         $controllerClass = '\\App\\Controllers\\' . $this->controller;
-        if (!class_exists($controllerClass) && file_exists('../app/Controllers/' . $this->controller . '.php')) {
-            require_once '../app/Controllers/' . $this->controller . '.php';
+        if (!class_exists($controllerClass) && file_exists('app/Controllers/' . $this->controller . '.php')) {
+            require_once 'app/Controllers/' . $this->controller . '.php';
         }
         $this->controller = new $controllerClass;
 

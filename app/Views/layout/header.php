@@ -16,14 +16,14 @@
 <body>
     <div class="wrapper">
         <!-- Sidebar incluse dynamiquement -->
-        <?php require_once '../app/Views/layout/sidebar.php'; ?>
+        <?php require_once 'app/Views/layout/sidebar.php'; ?>
         
         <!-- Page Content -->
         <div id="content">
             <!-- Navbar de la page -->
             <nav class="navbar-custom d-flex justify-content-between align-items-center bg-white shadow-sm border-bottom px-4" style="height: 70px;">
                 <div class="d-flex align-items-center">
-                    <button id="sidebarCollapse" class="btn btn-outline-primary me-3"><i class="fas fa-bars"></i></button>
+                    <button id="sidebarCollapse" class="btn btn-outline-danger me-3"><i class="fas fa-bars"></i></button>
                     <h5 class="m-0 fw-bold" style="color: var(--primary-color);">Tableau de Bord Académique</h5>
                 </div>
                 <div class="top-menu d-flex align-items-center">

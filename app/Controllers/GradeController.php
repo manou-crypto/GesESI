@@ -76,9 +76,20 @@ class GradeController extends Controller {
         $stmt2->execute([$assignment->fk_cours, $assignment->fk_classe, $assignment->fk_annee]);
         $students = $stmt2->fetchAll();
 
+        // 3. Récupérer les types d'évaluations déjà existants pour ce cours (pour information)
+        $stmt3 = $db->prepare("
+            SELECT DISTINCT type_evaluation, coefficient, date_evaluation 
+            FROM note 
+            WHERE fk_cours = ? AND fk_annee = ?
+            ORDER BY date_evaluation DESC
+        ");
+        $stmt3->execute([$assignment->fk_cours, $assignment->fk_annee]);
+        $evaluations = $stmt3->fetchAll();
+
         $this->view('grade/entry_form', [
             'assignment' => $assignment,
-            'students' => $students
+            'students' => $students,
+            'evaluations' => $evaluations
         ]);
     }
 
@@ -90,31 +101,27 @@ class GradeController extends Controller {
             $db = Database::getInstance();
             $id_cours = $_POST['id_cours'];
             $id_affectation = $_POST['id_affectation'];
+            $type_evaluation = Security::escape($_POST['type_evaluation'] ?? 'Devoir');
+            $coefficient = floatval($_POST['coefficient'] ?? 1.0);
             
             // Get active academic year
             $stmt_year = $db->query("SELECT id_annee FROM annee_academique WHERE est_active = 1");
             $year = $stmt_year->fetch();
+
             if (!$year) {
-                // Handle error: no active academic year found
-                $this->redirect('grade/enter/' . $id_affectation . '&status=error&message=No active academic year found');
+                $this->redirect('grade/enter/' . $id_affectation . '&status=error');
                 return;
             }
 
             foreach ($_POST['notes'] as $id_etudiant => $valeur) {
                 if ($valeur === '') continue;
 
-                // Vérifier si une note existe déjà
-                $check = $db->prepare("SELECT id_note FROM note WHERE fk_etudiant = ? AND fk_cours = ? AND fk_annee = ?");
-                $check->execute([$id_etudiant, $id_cours, $year->id_annee]);
-                $existing = $check->fetch();
-
-                if ($existing) {
-                    $upd = $db->prepare("UPDATE note SET valeur = ?, date_evaluation = NOW() WHERE id_note = ?");
-                    $upd->execute([$valeur, $existing->id_note]);
-                } else {
-                    $ins = $db->prepare("INSERT INTO note (fk_etudiant, fk_cours, fk_annee, valeur, date_evaluation) VALUES (?, ?, ?, ?, NOW())");
-                    $ins->execute([$id_etudiant, $id_cours, $year->id_annee, $valeur]);
-                }
+                // On insère TOUJOURS une nouvelle note pour permettre d'en avoir plusieurs
+                $ins = $db->prepare("
+                    INSERT INTO note (fk_etudiant, fk_cours, fk_annee, valeur, type_evaluation, coefficient, date_evaluation) 
+                    VALUES (?, ?, ?, ?, ?, ?, NOW())
+                ");
+                $ins->execute([$id_etudiant, $id_cours, $year->id_annee, $valeur, $type_evaluation, $coefficient]);
             }
 
             $this->redirect('grade/enter/' . $id_affectation . '&status=success');

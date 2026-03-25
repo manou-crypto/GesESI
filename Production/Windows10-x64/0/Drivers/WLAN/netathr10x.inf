@@ -1,0 +1,619 @@
+;/****************************************************************************
+; * Copyright 2011-2014 Qualcomm Atheros Inc., all rights reserved.          *
+; *                                                                          *
+; * Copyright (c) 2011-2014 Qualcomm Atheros, Inc.                           *
+; * All Rights Reserved.                                                     *
+; * Qualcomm Atheros Confidential and Proprietary.                           *
+; *                                                                          *
+; * INF file for Qualcomm Atheros reference designs                          *
+; ****************************************************************************/
+
+[version]
+Signature   = "$Windows NT$"
+Class       = Net
+ClassGUID   = {4d36e972-e325-11ce-bfc1-08002be10318}
+Provider    = %ATHEROS%
+CatalogFile = Qcamainext10x.cat
+DriverVer   = 05/19/2021,12.0.0.1118
+
+[Manufacturer]
+%ATHEROS%     = Atheros, NTamd64.10.0
+
+[ControlFlags]
+ExcludeFromSelect = *
+
+;
+; OS 10.0 Manufacturer section
+;
+[Atheros.NTamd64.10.0]
+; DisplayName               Section                 DeviceID
+; -----------               -------                 --------
+%ATHR.DeviceDesc.1810%     = ATHR_DEV_OS63_988x_DE_NFA435_TF_1_1.ndi, PCI\VEN_168C&DEV_0042&SUBSYS_18101028&REV_31 ;for Dell Wireless 1810 802.11ac
+%ATHR.DeviceDesc.1820%     = ATHR_DEV_OS63_988x_DE_NFA344A.ndi,       PCI\VEN_168C&DEV_003E&SUBSYS_03101028&REV_32 ;for Dell Wireless 1820 802.11ac
+%ATHR.DeviceDesc.1820%     = ATHR_DEV_OS63_988x_DE_NFA344A_2.ndi,     PCI\VEN_168C&DEV_003E&SUBSYS_04101028&REV_32 ;for Dell Wireless 1820 802.11ac
+%ATHR.DeviceDesc.QCA6174AXR%     = ATHR_DEV_OS63_988x_DE_NFA364A.ndi,     PCI\VEN_168C&DEV_003E&SUBSYS_364A1028&REV_32 ;for DELL NFA364A  
+
+%ATHR.DeviceDesc.2582_2%   = ATHR_DEV_OS63_988x_Killer_NFA344A.ndi,     PCI\VEN_168C&DEV_003E&SUBSYS_14351A56&REV_32 ;for Killer 1435
+%ATHR.DeviceDesc.2582_2%   = ATHR_DEV_OS63_988x_Killer_NFA324A_5.ndi,   PCI\VEN_168C&DEV_003E&SUBSYS_143A1A56&REV_32 ;for Killer1435-S
+%ATHR.DeviceDesc.2582_3%   = ATHR_DEV_OS63_988x_RV_Killer_NFA364A_2.ndi,PCI\VEN_168C&DEV_003E&SUBSYS_15351A56&REV_32 ;for Rivet Killer
+%ATHR.DeviceDesc.6174A%	   = ATHR_DEV_OS63_988x_Killer_NFA324A_5_H.ndi,	PCI\VEN_168C&DEV_003E&SUBSYS_535B1A56&REV_32 ;for Rivet
+
+;;Start of Tufello 1.1 Sections
+
+[ATHR_DEV_OS63_988x_DE_NFA435_TF_1_1.ndi.NTamd64]
+Characteristics = 0x84
+BusType         = 5
+AddReg          = atheros_os63.reg, atheros11n.reg, qca_utf.reg, D0PC.reg, roam.reg, wmmac.reg, FW_TF.reg, BD_NFA435_TF_1_1.reg, enableTxbfee.reg, DPC.reg, enableDVS.reg, enableSmbios.reg, wowEnable.reg, disableBTService.reg, enableVht2G.reg, stbcTxbfWar.reg, CountryToEnable11ac.reg, BandPrefer_WirelessMode.reg, enableHwRfKill.reg, enablePPDULog.reg, YBForScanTimeout3Times.reg, fastDlBinary.reg, WarForEnablePmL1.reg, suspectResetFlag.reg ; Win8 Win10 only, Win10 only 3
+CopyFiles       = atheros.CopyFiles, atheros_FW_TF.CopyFiles, atheros_BD_NFA435_TF_1_1.CopyFiles, service.CopyFiles
+*IfType         = 71        ; IF_TYPE_IEEE80211
+*MediaType      = 16        ; NdisMediumNative802_11
+*PhysicalMediaType = 9      ; NdisPhysicalMediumNative802_11
+Include         = machine.inf, netvwifibus.inf
+Needs           = VWiFiBus.CopyFiles
+
+[ATHR_DEV_OS63_988x_DE_NFA435_TF_1_1.ndi.NTamd64.Services]
+AddService = Qcamain10x64, 2, atheros.Service, atheros.EventLog
+Include    = netvwifibus.inf
+Needs      = VWiFiBus.Services
+AddService = QcomWlanSrv, 0x00000800, wlanService
+
+[ATHR_DEV_OS63_988x_DE_NFA435_TF_1_1.ndi.NTamd64.HW]
+AddReg  = MSI.reg
+Include = netvwifibus.inf
+Needs   = PciASPMOptIn.Hw, VWiFiBus.PnPFilterRegistration.Hw
+
+;;End of Tufello 1.1 Sections
+
+;;Start of Rome 3.x section
+
+[ATHR_DEV_OS63_988x_DE_NFA344A.ndi.NTamd64]
+Characteristics = 0x84
+BusType         = 5
+AddReg          = atheros_os63.reg, atheros11n.reg, smpsDynamic.reg, qca_utf.reg, D0PC.reg, roam.reg, wmmac.reg, FW_3X.reg, BD_NFA344A_1213.reg, enableTxbfee.reg, TxbfeeRestrain.reg, enableSmbios.reg, wowEnable.reg, disableBTService.reg, enableHwRfKill.reg, BandPrefer_WirelessMode.reg, enablePPDULog.reg, fastDlBinary.reg, IgnorePollBeforeReset.reg, DisableDumpTarget.reg, suspectResetFlag.reg ; Win10 only 3
+CopyFiles       = atheros.CopyFiles, atheros_FW_3X.CopyFiles, atheros_BD_NFA344A_1213.CopyFiles, atheros_BD_NFA344A_DE.CopyFiles, service.CopyFiles
+*IfType         = 71        ; IF_TYPE_IEEE80211
+*MediaType      = 16        ; NdisMediumNative802_11
+*PhysicalMediaType = 9      ; NdisPhysicalMediumNative802_11
+Include         = machine.inf, netvwifibus.inf
+Needs           = VWiFiBus.CopyFiles
+
+[ATHR_DEV_OS63_988x_DE_NFA344A.ndi.NTamd64.Services]
+AddService = Qcamain10x64, 2, atheros.Service, atheros.EventLog
+Include    = netvwifibus.inf
+Needs      = VWiFiBus.Services
+AddService = QcomWlanSrv, 0x00000800, wlanService
+
+[ATHR_DEV_OS63_988x_DE_NFA344A.ndi.NTamd64.HW]
+AddReg  = MSI.reg
+Include = netvwifibus.inf
+Needs   = PciASPMOptIn.Hw, VWiFiBus.PnPFilterRegistration.Hw
+
+[ATHR_DEV_OS63_988x_DE_NFA344A_2.ndi.NTamd64]
+Characteristics = 0x84
+BusType         = 5
+AddReg          = atheros_os63.reg, atheros11n.reg, smpsDynamic.reg, qca_utf.reg, D0PC.reg, roam.reg, wmmac.reg, FW_3X.reg, BD_NFA344A_DE_0410.reg, enableTxbfee.reg, TxbfeeRestrain.reg, enableSmbios.reg, wowEnable.reg, disableBTService.reg, enableHwRfKill.reg, BandPrefer_WirelessMode.reg, enablePPDULog.reg, fastDlBinary.reg, suspectResetFlag.reg ; Win10 only 2
+CopyFiles       = atheros.CopyFiles, atheros_FW_3X.CopyFiles, atheros_BD_NFA344A_DE_0410.CopyFiles, service.CopyFiles
+*IfType         = 71        ; IF_TYPE_IEEE80211
+*MediaType      = 16        ; NdisMediumNative802_11
+*PhysicalMediaType = 9      ; NdisPhysicalMediumNative802_11
+Include         = machine.inf, netvwifibus.inf
+Needs           = VWiFiBus.CopyFiles
+
+[ATHR_DEV_OS63_988x_DE_NFA344A_2.ndi.NTamd64.Services]
+AddService = Qcamain10x64, 2, atheros.Service, atheros.EventLog
+Include    = netvwifibus.inf
+Needs      = VWiFiBus.Services
+AddService = QcomWlanSrv, 0x00000800, wlanService
+
+[ATHR_DEV_OS63_988x_DE_NFA344A_2.ndi.NTamd64.HW]
+AddReg  = MSI.reg
+Include = netvwifibus.inf
+Needs   = PciASPMOptIn.Hw, VWiFiBus.PnPFilterRegistration.Hw
+
+[ATHR_DEV_OS63_988x_DE_NFA364A.ndi.NTamd64] 
+Characteristics = 0x84
+BusType         = 5
+AddReg          = atheros_os63.reg, atheros11n.reg, smpsDynamic.reg, qca_utf.reg, D0PC.reg, roam.reg, wmmac.reg, FW_3X.reg, BD_NFA364A_DE.reg, enableTxbfee.reg, enableSmbios.reg, wowEnable.reg, disableTXBFforBadPerfAPs.reg, stbcTxbfWar.reg, disableBTService.reg, Ch1213Option.reg, BandPrefer_WirelessMode.reg, enableHwRfKill.reg, enablePPDULog.reg, fastDlBinary.reg, UA_Reduce_Pwr.reg, suspectResetFlag.reg ; Win8 Win10 only , Win10 only 2; Win7Win10 only 
+CopyFiles       = atheros.CopyFiles, atheros_FW_3X.CopyFiles, atheros_BD_NFA364A_DE.CopyFiles, atheros_BD_NFA364A_DE_SAR.CopyFiles, service.CopyFiles
+*IfType         = 71        ; IF_TYPE_IEEE80211
+*MediaType      = 16        ; NdisMediumNative802_11
+*PhysicalMediaType = 9      ; NdisPhysicalMediumNative802_11
+Include         = machine.inf, netvwifibus.inf
+Needs           = VWiFiBus.CopyFiles
+
+[ATHR_DEV_OS63_988x_DE_NFA364A.ndi.NTamd64.Services]
+AddService = Qcamain10x64, 2, atheros.Service, atheros.EventLog
+Include    = netvwifibus.inf
+Needs      = VWiFiBus.Services
+AddService = QcomWlanSrv, 0x00000800, wlanService
+
+[ATHR_DEV_OS63_988x_DE_NFA364A.ndi.NTamd64.HW]
+AddReg  = MSI.reg
+Include = netvwifibus.inf
+Needs   = PciASPMOptIn.Hw, VWiFiBus.PnPFilterRegistration.Hw
+
+[ATHR_DEV_OS63_988x_Killer_NFA344A.ndi.NTamd64]
+Characteristics = 0x84
+BusType         = 5
+AddReg          = atheros_os63.reg, atheros11n.reg, smpsDynamic.reg, qca_utf.reg, D0PC.reg, roam.reg, wmmac.reg, FW_3X.reg, BD_NFA344A.reg, enableTxbfee.reg, enableSmbios.reg, BandPrefer_WirelessMode.reg, Ch1213_options_SingleSKU.reg, DPC_Core_2.reg, fastDlBinary.reg, wowEnable.reg, UA_Reduce_Pwr.reg ; Win10 only 2 , Win7Win10 only 2
+CopyFiles       = atheros.CopyFiles, atheros_FW_3X.CopyFiles, atheros_BD_NFA344A.CopyFiles, atheros_BD_NFA344A_RV.CopyFiles, service.CopyFiles
+*IfType         = 71        ; IF_TYPE_IEEE80211
+*MediaType      = 16        ; NdisMediumNative802_11
+*PhysicalMediaType = 9      ; NdisPhysicalMediumNative802_11
+Include         = machine.inf, netvwifibus.inf
+Needs           = VWiFiBus.CopyFiles
+
+[ATHR_DEV_OS63_988x_Killer_NFA344A.ndi.NTamd64.Services]
+AddService = Qcamain10x64, 2, atheros.Service, atheros.EventLog
+Include    = netvwifibus.inf
+Needs      = VWiFiBus.Services
+AddService = QcomWlanSrv, 0x00000800, wlanService
+
+[ATHR_DEV_OS63_988x_Killer_NFA344A.ndi.NTamd64.HW]
+AddReg  = MSI.reg
+Include = netvwifibus.inf
+Needs   = PciASPMOptIn.Hw, VWiFiBus.PnPFilterRegistration.Hw
+
+[ATHR_DEV_OS63_988x_Killer_NFA324A_5.ndi.NTamd64]
+Characteristics = 0x84
+BusType         = 5
+AddReg          = atheros_os63.reg, atheros11n.reg, smpsDynamic.reg, qca_utf.reg, D0PC.reg, roam.reg, wmmac.reg, FW_3X.reg, BD_NFA324A_5.reg, enableTxbfee.reg, enableSmbios.reg, BandPrefer_WirelessMode.reg, DPC_Core_2.reg, fastDlBinary.reg, wowEnable.reg , UA_Reduce_Pwr.reg; Win10 only 2 ; Win7Win10 only 2
+CopyFiles       = atheros.CopyFiles, atheros_FW_3X.CopyFiles, atheros_BD_NFA324A_5.CopyFiles, atheros_BD_NFA324A_5_RV_0520.CopyFiles, service.CopyFiles
+*IfType         = 71        ; IF_TYPE_IEEE80211
+*MediaType      = 16        ; NdisMediumNative802_11
+*PhysicalMediaType = 9      ; NdisPhysicalMediumNative802_11
+Include         = machine.inf, netvwifibus.inf
+Needs           = VWiFiBus.CopyFiles
+
+[ATHR_DEV_OS63_988x_Killer_NFA324A_5.ndi.NTamd64.Services]
+AddService = Qcamain10x64, 2, atheros.Service, atheros.EventLog
+Include    = netvwifibus.inf
+Needs      = VWiFiBus.Services
+AddService = QcomWlanSrv, 0x00000800, wlanService
+
+[ATHR_DEV_OS63_988x_Killer_NFA324A_5.ndi.NTamd64.HW]
+AddReg  = MSI.reg
+Include = netvwifibus.inf
+Needs   = PciASPMOptIn.Hw, VWiFiBus.PnPFilterRegistration.Hw
+
+[ATHR_DEV_OS63_988x_RV_Killer_NFA364A_2.ndi.NTamd64] ; Win10 only
+Characteristics = 0x84
+BusType         = 5
+AddReg          = atheros_os63.reg, atheros11n.reg, smpsDynamic.reg, qca_utf.reg, D0PC.reg, roam.reg, wmmac.reg, FW_3X.reg, BD_NFA364A.reg, enableTxbfee.reg, enableSmbios.reg, BandPrefer_WirelessMode.reg, wowEnable.reg, disableTXBFforBadPerfAPs.reg, stbcTxbfWar.reg, serviceMonWlan.reg, CtlPerUEFI.reg, BdfExtPerUEFI.reg, DPC_Core_2.reg, 11acUefi.reg, fastDlBinary.reg, UA_Reduce_Pwr.reg ; Win10 only 5; Win7Win10 Only
+CopyFiles       = atheros.CopyFiles, atheros_FW_3X.CopyFiles, atheros_BD_NFA364A.CopyFiles, atheros_BD_NFA364A_RV.CopyFiles, service.CopyFiles
+*IfType         = 71        ; IF_TYPE_IEEE80211
+*MediaType      = 16        ; NdisMediumNative802_11
+*PhysicalMediaType = 9      ; NdisPhysicalMediumNative802_11
+Include         = machine.inf, netvwifibus.inf
+Needs           = VWiFiBus.CopyFiles
+
+[ATHR_DEV_OS63_988x_RV_Killer_NFA364A_2.ndi.NTamd64.Services]
+AddService = Qcamain10x64, 2, atheros.Service, atheros.EventLog
+Include    = netvwifibus.inf
+Needs      = VWiFiBus.Services
+AddService = QcomWlanSrv, 0x00000800, wlanService
+
+[ATHR_DEV_OS63_988x_RV_Killer_NFA364A_2.ndi.NTamd64.HW]
+AddReg  = MSI.reg
+Include = netvwifibus.inf
+Needs   = PciASPMOptIn.Hw, VWiFiBus.PnPFilterRegistration.Hw
+
+
+[ATHR_DEV_OS63_988x_Killer_NFA324A_5_H.ndi.NTamd64]
+Characteristics = 0x84
+BusType         = 5
+AddReg          = atheros_os63.reg, atheros11n.reg, smpsDynamic.reg, qca_utf.reg, D0PC.reg, roam.reg, wmmac.reg, FW_3X.reg, BD_NFA324A_5_H.reg, enableTxbfee.reg, enableSmbios.reg, BandPrefer_WirelessMode.reg, DPC_Core_2.reg, fastDlBinary.reg, wowEnable.reg, UA_Reduce_Pwr.reg ; Win10 only 2; Win7Win10 only 2
+CopyFiles       = atheros.CopyFiles, atheros_FW_3X.CopyFiles, atheros_BD_NFA324A_5_H.CopyFiles, service.CopyFiles
+*IfType         = 71        ; IF_TYPE_IEEE80211
+*MediaType      = 16        ; NdisMediumNative802_11
+*PhysicalMediaType = 9      ; NdisPhysicalMediumNative802_11
+Include         = machine.inf, netvwifibus.inf
+Needs           = VWiFiBus.CopyFiles
+
+[ATHR_DEV_OS63_988x_Killer_NFA324A_5_H.ndi.NTamd64.Services]
+AddService = Qcamain10x64, 2, atheros.Service, atheros.EventLog
+Include    = netvwifibus.inf
+Needs      = VWiFiBus.Services
+AddService = QcomWlanSrv, 0x00000800, wlanService
+
+[ATHR_DEV_OS63_988x_Killer_NFA324A_5_H.ndi.NTamd64.HW]
+AddReg  = MSI.reg
+Include = machine.inf, netvwifibus.inf
+Needs   = PciASPMOptIn.Hw, VWiFiBus.PnPFilterRegistration.Hw, PciD3ColdSupported.Hw
+
+;;End of Rome 3.x section
+
+[atheros_os63.reg]
+HKR, Ndi,                           Service,    0, "Qcamain10x64"
+HKR, Ndi\Interfaces,                UpperRange, 0, "ndis5"
+HKR, Ndi\Interfaces,                LowerRange, 0, "wlan,ethernet,vwifi"
+HKR, , AddNewChannelfor11d, 0x00010001, 0
+HKR, , disableP2pLinkSpeedInd, 0x00010001, 1  ; Win10 only
+HKR, , AdaptiveSchedulerEnable, 0x00010001, 1 ; Win10 only
+
+[atheros11n.reg]
+HKR, Ndi\Params\roamPolicy,         ParamDesc,  0, %RoamAggressive%
+HKR, Ndi\Params\roamPolicy,         Type,       0, "enum"
+HKR, Ndi\Params\roamPolicy\enum,    "5",        0, %RssiHighest%
+HKR, Ndi\Params\roamPolicy\enum,    "4",        0, %RssiMedium-high%
+HKR, Ndi\Params\roamPolicy\enum,    "3",        0, %RssiMedium%
+HKR, Ndi\Params\roamPolicy\enum,    "2",        0, %RssiMedium-low%
+HKR, Ndi\Params\roamPolicy\enum,    "1",        0, %RssiLowest%
+HKR, Ndi\Params\roamPolicy,         Default,    0, "3"
+HKR, Ndi\params\NetworkAddress,     ParamDesc,  0,  %NetworkAddress%
+HKR, Ndi\params\NetworkAddress,     default,    0,  ""
+HKR, Ndi\params\NetworkAddress,     LimitText,  0,  "12"
+HKR, Ndi\params\NetworkAddress,     UpperCase,  0,  "1"
+HKR, Ndi\params\NetworkAddress,     optional,   0,  "1"
+HKR, Ndi\params\NetworkAddress,     type,       0,  "edit"
+
+[qca_utf.reg]
+HKR, , UtfMode,       0x10001,  "0"
+HKR, , UtfTraceLevel, 0x10001,  "0"
+
+[smpsDynamic.reg]
+HKR, Ndi\params\smpsDynamic,            ParamDesc,  0,  %smpsDynamic%
+HKR, Ndi\params\smpsDynamic,            Base,       0,  "10"
+HKR, Ndi\params\smpsDynamic,            default,    0,  "0"
+HKR, Ndi\params\smpsDynamic,            type,       0,  "enum"
+HKR, Ndi\params\smpsDynamic\enum,       "1",        0,  %Enable%
+HKR, Ndi\params\smpsDynamic\enum,       "0",        0,  %Disable%
+
+[D0PC.reg]
+HKR, NDI\params\D0PCEnable,ParamDesc,,          %D0PCDesc%
+HKR, NDI\params\D0PCEnable,type,,               "enum"
+HKR, NDI\params\D0PCEnable,Default,,            "0"
+HKR, NDI\params\D0PCEnable\enum,0,,             %Disable%
+HKR, NDI\params\D0PCEnable\enum,1,,             %Enable%
+
+[BandPrefer_WirelessMode.reg]
+HKR, Ndi\params\StaPreferredBand,      ParamDesc,          0,          "Preferred Band"
+HKR, Ndi\params\StaPreferredBand,      default,            0,          "1"
+HKR, Ndi\params\StaPreferredBand,      type,               0,          "enum"
+HKR, Ndi\params\StaPreferredBand\enum, "1",                0,          "1 - No Preference"
+HKR, Ndi\params\StaPreferredBand\enum, "2",                0,          "2 - Prefer 2.4Ghz Band"
+HKR, Ndi\params\StaPreferredBand\enum, "3",                0,          "3 - Prefer 5Ghz Band"
+HKR, Ndi\params\StaWirelessMode,       ParamDesc,          0,          "Wireless Mode"
+HKR, Ndi\params\StaWirelessMode,       default,            0,          "12"
+HKR, Ndi\params\StaWirelessMode,       type,               0,          "enum"
+HKR, Ndi\params\StaWirelessMode\enum,  "1",                0,          "01 - 11 b"
+HKR, Ndi\params\StaWirelessMode\enum,  "2",                0,          "02 - 11 g"
+HKR, Ndi\params\StaWirelessMode\enum,  "3",                0,          "03 - 11 b/g"
+HKR, Ndi\params\StaWirelessMode\enum,  "4",                0,          "04 - 11 g/n"
+HKR, Ndi\params\StaWirelessMode\enum,  "5",                0,          "05 - 11 b/g/n"
+HKR, Ndi\params\StaWirelessMode\enum,  "6",                0,          "06 - 11 a"
+HKR, Ndi\params\StaWirelessMode\enum,  "7",                0,          "07 - 11 a/n"
+HKR, Ndi\params\StaWirelessMode\enum,  "8",                0,          "08 - 11 a/b/g/n"
+HKR, Ndi\params\StaWirelessMode\enum,  "9",                0,          "09 - 11 a/g/n"
+HKR, Ndi\params\StaWirelessMode\enum,  "10",               0,          "10 - 11 a/n/ac"
+HKR, Ndi\params\StaWirelessMode\enum,  "11",               0,          "11 - 11 a/g/n/ac"
+HKR, Ndi\params\StaWirelessMode\enum,  "12",               0,          "12 - 11 a/b/g/n/ac"
+
+[MSI.reg]
+HKR, "Interrupt Management", 0x00000010
+HKR, "Interrupt Management\MessageSignaledInterruptProperties", 0x00000010
+HKR, "Interrupt Management\MessageSignaledInterruptProperties", MSISupported, 0x00010001, 1
+HKR, "Interrupt Management\MessageSignaledInterruptProperties", MessageNumberLimit, 0x00010001, 8
+
+[roam.reg]
+HKR, , ftEnable, 0x00010001, 1
+
+[wmmac.reg]
+HKR, , wmmacEnable, 0x00010001, 1
+
+[wowEnable.reg]
+HKR, , wowEnable, 0x00010001, 1
+
+[UA_Reduce_Pwr.reg]
+HKR, , UA_reduce_pwr, 0x00010001, 1
+
+[fastDlBinary.reg]
+HKR, , fastDlBinary, 0x00010001, 3
+
+[enableSmbios.reg]
+HKR, , SmUfCfgParaPolicy, 0x00010001, 1
+
+[enableTxbfee.reg]
+HKR, , Txbfee, 0x00010001, 0x8D
+HKR, , Txbfeeenable, 0x00010001, 1
+
+[DPC.reg]
+HKR, , DpcTargetProcessors, 0x00010001, 0
+HKR, , DpcLockMode, 0x00010001, 1
+
+[enableDVS.reg]
+HKR, , gAntennaDiversity, 0x00010001, 3
+
+[enableVht2G.reg]
+HKR, , NetBand, 0x00010001, 0x6FFFFFF
+HKR, , wModeSelect, 0x00010001, 0x6FFFFFF
+HKR, , VHT40WAR, 0x00010001, 1
+
+[stbcTxbfWar.reg]
+HKR, , stbcTxbfWar, 0x00010001, 1
+
+[enableHwRfKill.reg]
+HKR, , EnableHardwareRFKill, 0x00010001, 1
+
+[serviceMonWlan.reg]
+HKR, , serviceMonWlan, 0x00010001, 1
+
+[disableBTService.reg]
+HKR, , serviceMonWlan, 0x00010001, 0
+
+[TxbfeeRestrain.reg]
+HKR, , SUTxbfeeRestrain, 0x00010001, 1
+
+[CountryToEnable11ac.reg]
+HKR, , CountryToEnable11ac, 0x00010001, 1
+
+[disableTXBFforBadPerfAPs.reg]
+HKR, , disableTXBFforBadPerfAPs, 0x00010001, 1
+
+[Ch1213Option.reg]
+HKR, , Ch1213_options, 0x00010001, 3
+
+[suspectResetFlag.reg]
+HKR, , suspectResetFlag, 0x00010001, 1
+
+[enablePPDULog.reg]
+HKR, , enablePPDULog, 0x00010001, 1
+
+[YBForScanTimeout3Times.reg]
+HKR, , YBForScanTimeout3Times, 0x00010001, 0
+
+[IgnorePollBeforeReset.reg]
+HKR, , IgnorePollBeforeReset, 0x00010001, 1
+
+[WarForEnablePmL1.reg]
+HKR, , WarForEnablePmL1, 0x00010001, 1
+
+[DisableDumpTarget.reg]
+HKR, , DumpTargetOnBugcheck, 0x00010001, 0
+
+[Ch1213_options_SingleSKU.reg]
+HKR, , Ch1213_options, 0x00010001, 3
+
+[DPC_Core_2.reg] ; Win10 only
+HKR, , DpcTargetProcessors, 0x00010001, 4
+
+[CtlPerUEFI.reg] ; Win10 only
+HKR, , CtlPerUEFI, 0x00010001, 1
+
+[BdfExtPerUEFI.reg]
+HKR, , BdfExtPerUEFI, 0x00010001, 2
+
+[11acUefi.reg]
+HKR, , dot11acSelection, 0x00010001, 1
+
+;;End of Customized Section
+
+[wlanService]
+DisplayName    = "Qualcomm Atheros WLAN Driver Service"
+ServiceType    = 0x10 ; SERVICE_WIN32_OWN_PROCESS
+StartType      = 2    ; SERVICE_AUTO_START 
+ErrorControl   = 0    ; ERROR_NORMAL
+ServiceBinary  = %12%\QcomWlanSrvx64.exe
+AddReg		   = ComponentBitmap.reg
+
+[ComponentBitMap.reg]
+HKR, , ComponentBitmap, 0x00010001, 8
+
+[service.CopyFiles]
+QcomWlanSrvx64.exe,,,0x00004000  
+
+[atheros.Service]
+DisplayName     = %ATHR.Service.DispName%
+ServiceType     = 1         ;SERVICE_KERNEL_DRIVER
+StartType       = 3         ;SERVICE_DEMAND_START
+ErrorControl    = 1         ;SERVICE_ERROR_NORMAL
+ServiceBinary   = %12%\Qcamain10x64.sys
+LoadOrderGroup  = NDIS
+
+[atheros.EventLog]
+AddReg = atheros.AddEventLog.reg
+
+[atheros.AddEventLog.reg]
+HKR, , EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\netevent.dll"
+HKR, , TypesSupported,   0x00010001, 7
+
+[atheros.CopyFiles]
+Qcamain10x64.sys,,,2
+
+;;Start of Tufello FW and BD files
+
+[FW_TF.reg]
+HKR, , FWFileName, 0x00000000, "qca9377_2_0.bin"
+HKR, , DBFileName, 0x00000000, "Data9377_2_0.msc"
+
+[BD_NFA324A_5.reg]
+HKR, , BoardDataFileName, 0x00000000, "eeprom_ar6320_3p0_NFA324i_5.bin"
+
+[BD_NFA344A.reg]
+HKR, , BoardDataFileName, 0x00000000, "eeprom_ar6320_3p0_NFA344a.bin"
+
+[BD_NFA364A.reg]
+HKR, , BoardDataFileName, 0x00000000, "eeprom_ar6320_3p0_NFA364xp.bin"
+
+[BD_NFA435_TF_1_1.reg]
+HKR, , BoardDataFileName, 0x00000000, "eeprom_qca9377_1p1_NFA435_olpc.bin"
+
+[atheros_FW_TF.CopyFiles]
+qca9377_2_0.bin,,,2
+Data9377_2_0.msc,,,2 ; Win10 only
+
+[atheros_BD_NFA435_TF_1_1.CopyFiles]
+eeprom_qca9377_1p1_NFA435_olpc.bin,,,2
+eeprom_qca9377_1p1_NFA435_olpc_DE_P87G.bin,,,2
+eeprom_qca9377_1p1_NFA435_olpc_DE_P88G.bin,,,2
+eeprom_qca9377_1p1_NFA435_olpc_DE_089C.bin,,,2
+eeprom_qca9377_1p1_NFA435_olpc_DE_P130G.bin,,,2
+
+;;End of Tufello FW and BD files
+
+;;Start of Rome 3.x FW and BD files
+
+[FW_3X.reg]
+HKR, , FWFileName, 0x00000000, "qca61x4_2_2.bin"
+HKR, , DBFileName, 0x00000000, "Data61x4_2_2.msc" ; Win10 only
+
+[atheros_FW_3X.CopyFiles]
+qca61x4_2_2.bin,,,2
+Data61x4_2_2.msc,,,2 ; Win10 only
+
+[BD_NFA344A_1213.reg]
+HKR, , BoardDataFileName, 0x00000000, "eeprom_ar6320_3p0_NFA344A_power1213.bin"
+
+[atheros_BD_NFA344A.CopyFiles]
+eeprom_ar6320_3p0_NFA344a.bin,,,2
+
+[atheros_BD_NFA344A_1213.CopyFiles]
+eeprom_ar6320_3p0_NFA344A_power1213.bin,,,2
+
+[atheros_BD_NFA344A_DE.CopyFiles]
+eeprom_ar6320_3p0_NFA344A_power1213_DE_5459.bin,,,2
+eeprom_ar6320_3p0_NFA344A_power1213_RV_0519.bin,,,2
+eeprom_ar6320_3p0_NFA344A_power1213_DE_0419.bin,,,2
+eeprom_ar6320_3p0_NFA344A_power1213_DE_P87G.bin,,,2
+eeprom_ar6320_3p0_NFA344A_power1213_DE_08E0.bin,,,2
+eeprom_ar6320_3p0_NFA344A_power1213_DE_08E2.bin,,,2
+eeprom_ar6320_3p0_NFA344A_power1213_DE_08E9.bin,,,2
+eeprom_ar6320_3p0_NFA344A_power1213_DE_P83F.bin,,,2
+eeprom_ar6320_3p0_NFA344A_power1213_DE_P106G.bin,,,2
+eeprom_ar6320_3p0_NFA344A_power1213_DE_P143G.bin,,,2
+eeprom_ar6320_3p0_NFA344A_power1213_DE_P146G.bin,,,2
+eeprom_ar6320_3p0_NFA344A_power1213_DE_P139G.bin,,,2
+
+[BD_NFA344A_DE_0410.reg]
+HKR, , BoardDataFileName, 0x00000000, "eeprom_ar6320_3p0_NFA344A_power1213_DE_0410.bin"
+
+[atheros_BD_NFA344A_DE_0410.CopyFiles]
+eeprom_ar6320_3p0_NFA344A_power1213_DE_0410.bin,,,2
+
+[atheros_BD_NFA344A_RV.CopyFiles]
+eeprom_ar6320_3p0_NFA344A_power1213_RV_0519.bin ,,,2
+
+[atheros_BD_NFA364A.CopyFiles]
+eeprom_ar6320_3p0_NFA364xp.bin,,,2
+
+[atheros_BD_NFA364A_DE.CopyFiles] 
+eeprom_ar6320_3p0_NFA364xp_ssku.bin,,,2 
+
+[atheros_BD_NFA364A_DE_SAR.CopyFiles] 
+eeprom_ar6320_3p0_NFA364xp_ssku_RV_0519.bin,,,2
+eeprom_ar6320_3p0_NFA364xp_ssku_DE_0522.bin,,,2
+eeprom_ar6320_3p0_NFA364xp_ssku_DE_0523.bin,,,2
+eeprom_ar6320_3p0_NFA364xp_ssku_DE_0524.bin,,,2
+
+[BD_NFA364A_DE.reg]
+HKR, , BoardDataFileName, 0x00000000, "eeprom_ar6320_3p0_NFA364xp_ssku.bin"
+
+[atheros_BD_NFA364A_RV.CopyFiles]
+eeprom_ar6320_3p0_NFA364xp_RV_0519.bin ,,,2
+eeprom_ar6320_3p0_NFA364xp_RV_0520.bin ,,,2
+eeprom_ar6320_3p0_NFA364xp_LE_1.bin ,,,2
+eeprom_ar6320_3p0_NFA364xp_LE_2.bin ,,,2
+
+[atheros_BD_NFA324A_5.CopyFiles]
+eeprom_ar6320_3p0_NFA324i_5.bin,,,2
+
+[atheros_BD_NFA324A_5_RV_0520.CopyFiles]
+eeprom_ar6320_3p0_NFA324i_5_RV_0520.bin,,,2
+eeprom_ar6320_3p0_NFA324i_5_RV_0522.bin,,,2
+
+[BD_NFA324A_5_H.reg]
+HKR, , BoardDataFileName, 0x00000000, "eeprom_ar6320_3p0_NFA324i_5_RV_0521.bin"
+
+[atheros_BD_NFA324A_5_H.CopyFiles]
+eeprom_ar6320_3p0_NFA324i_5_RV_0521.bin,,,2
+
+;;End of Rome 3.x FW and BD files
+
+[SourceDisksNames]
+1 = %DiskDescription%,,,
+
+[SourceDisksFiles]
+Qcamain10x64.sys                     = 1,,
+qca9377_2_0.bin                      = 1,,
+Data9377_2_0.msc                     = 1,, ; Win10 only
+eeprom_qca9377_1p1_NFA435_olpc.bin   = 1,,
+qca61x4_2_2.bin                      = 1,,
+Data61x4_2_2.msc                     = 1,, ; Win10 only
+eeprom_qca9377_1p1_NFA435_olpc_DE_P87G.bin      = 1,,
+eeprom_qca9377_1p1_NFA435_olpc_DE_P88G.bin      = 1,,
+eeprom_qca9377_1p1_NFA435_olpc_DE_089C.bin      = 1,,
+eeprom_qca9377_1p1_NFA435_olpc_DE_P130G.bin     = 1,,
+eeprom_ar6320_3p0_NFA344a.bin                   = 1,,
+eeprom_ar6320_3p0_NFA344A_power1213.bin         = 1,,
+eeprom_ar6320_3p0_NFA344A_power1213_DE_5459.bin = 1,,
+eeprom_ar6320_3p0_NFA344A_power1213_RV_0519.bin = 1,,
+eeprom_ar6320_3p0_NFA344A_power1213_DE_0419.bin = 1,,
+eeprom_ar6320_3p0_NFA344A_power1213_DE_0410.bin = 1,,
+eeprom_ar6320_3p0_NFA344A_power1213_DE_P87G.bin = 1,,
+eeprom_ar6320_3p0_NFA344A_power1213_DE_08E0.bin = 1,,
+eeprom_ar6320_3p0_NFA344A_power1213_DE_08E2.bin = 1,,
+eeprom_ar6320_3p0_NFA344A_power1213_DE_08E9.bin = 1,,
+eeprom_ar6320_3p0_NFA344A_power1213_DE_P83F.bin = 1,,
+eeprom_ar6320_3p0_NFA344A_power1213_DE_P106G.bin = 1,,
+eeprom_ar6320_3p0_NFA344A_power1213_DE_P143G.bin = 1,,
+eeprom_ar6320_3p0_NFA344A_power1213_DE_P146G.bin = 1,,
+eeprom_ar6320_3p0_NFA344A_power1213_DE_P139G.bin = 1,,
+eeprom_ar6320_3p0_NFA364xp.bin                  = 1,,
+eeprom_ar6320_3p0_NFA364xp_ssku.bin  = 1,, 
+eeprom_ar6320_3p0_NFA364xp_ssku_RV_0519.bin = 1,,
+eeprom_ar6320_3p0_NFA364xp_ssku_DE_0522.bin = 1,,
+eeprom_ar6320_3p0_NFA364xp_ssku_DE_0523.bin = 1,,
+eeprom_ar6320_3p0_NFA364xp_ssku_DE_0524.bin = 1,,
+eeprom_ar6320_3p0_NFA364xp_RV_0519.bin          = 1,,
+eeprom_ar6320_3p0_NFA364xp_RV_0520.bin          = 1,,
+eeprom_ar6320_3p0_NFA364xp_LE_1.bin 	        = 1,,
+eeprom_ar6320_3p0_NFA364xp_LE_2.bin 	        = 1,,
+eeprom_ar6320_3p0_NFA324i_5.bin                 = 1,,
+eeprom_ar6320_3p0_NFA324i_5_RV_0520.bin	        = 1,,
+eeprom_ar6320_3p0_NFA324i_5_RV_0522.bin	        = 1,,
+eeprom_ar6320_3p0_NFA324i_5_RV_0521.bin	        = 1,,
+QcomWlanSrvx64.exe                              = 1,,
+
+[DestinationDirs]
+atheros.CopyFiles                    = 12
+atheros_FW_TF.CopyFiles              = 12
+atheros_BD_NFA435_TF_1_1.CopyFiles   = 12
+atheros_FW_3X.CopyFiles              = 12
+atheros_BD_NFA344A.CopyFiles         = 12
+atheros_BD_NFA344A_1213.CopyFiles    = 12
+atheros_BD_NFA344A_DE.CopyFiles      = 12
+atheros_BD_NFA344A_DE_0410.CopyFiles = 12
+atheros_BD_NFA344A_RV.CopyFiles      = 12
+atheros_BD_NFA364A_DE.CopyFiles		 = 12
+atheros_BD_NFA364A_DE_SAR.CopyFiles	 = 12
+atheros_BD_NFA364A_RV.CopyFiles      = 12
+atheros_BD_NFA324A_5.CopyFiles       = 12
+atheros_BD_NFA324A_5_RV_0520.CopyFiles = 12
+atheros_BD_NFA324A_5_H.CopyFiles   = 12
+service.CopyFiles                    = 12
+DefaultDestDir                       = 11
+
+[Strings]
+Msft                         = "Microsoft"
+Atheros                      = "Qualcomm Communications Inc."
+ATHR.Service.DispName        = "Qualcomm Extensible Wireless LAN 11AC device driver"
+DiskDescription              = "Qualcomm Sample Driver Disk 1"
+Enable                       = "Enable"
+Disable                      = "Disable"
+RoamAggressive               = "Roaming aggressiveness"
+RssiLowest                   = "1.Lowest"
+RssiMedium-low               = "2.Medium-low"   
+RssiMedium                   = "3.Medium"
+RssiMedium-high              = "4.Medium-high"
+RssiHighest                  = "5.Highest"
+NetworkAddress               = "Network Address"
+bkScanEnable                 = "BackgroundScan On/Off"
+radioEnable                  = "Radio On/Off"
+smpsDynamic                  = "Dynamic MIMO Power Save"
+D0PCDesc                     = "D0 PacketCoalescing"
+ATHR.DeviceDesc.1810         = "Qualcomm QCA9377 802.11ac Wireless Adapter"
+ATHR.DeviceDesc.1820         = "Qualcomm QCA61x4A 802.11ac Wireless Adapter"
+ATHR.DeviceDesc.QCA6174AXR	 = "Qualcomm(R) QCA6174A Extended Range 802.11ac MU-MIMO Wireless Adapter"
+ATHR.DeviceDesc.2582_2       = "Killer Wireless-n/a/ac 1435 Wireless Network Adapter"
+ATHR.DeviceDesc.2582_3       = "Killer Wireless-n/a/ac 1535 Wireless Network Adapter"
+ATHR.DeviceDesc.6174A        = "Qualcomm QCA6174A HMC Wireless Network Adapter"

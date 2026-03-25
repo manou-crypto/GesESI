@@ -96,7 +96,7 @@ $role = $_SESSION['role'] ?? 'etudiant';
 }
 .menu-item.active {
     background: #fff;
-    color: #00BFFF;
+    color: #800000;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 .menu-item i {
