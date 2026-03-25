@@ -1,4 +1,4 @@
-<?php require_once '../app/Views/layout/header.php'; ?>
+<?php require_once 'app/Views/layout/header.php'; ?>
 
 <div class="row align-items-center mb-4">
     <div class="col">
@@ -59,4 +59,4 @@
     </div>
 </div>
 
-<?php require_once '../app/Views/layout/footer.php'; ?>
+<?php require_once 'app/Views/layout/footer.php'; ?>

@@ -1,4 +1,4 @@
-<?php require_once '../app/Views/layout/header.php'; ?>
+<?php require_once 'app/Views/layout/header.php'; ?>
 
 <div class="row">
     <div class="col-md-8 mx-auto mt-4">
@@ -61,4 +61,4 @@
     </div>
 </div>
 
-<?php require_once '../app/Views/layout/footer.php'; ?>
+<?php require_once 'app/Views/layout/footer.php'; ?>

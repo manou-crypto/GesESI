@@ -1,4 +1,4 @@
-<?php require_once '../app/Views/layout/header.php'; ?>
+<?php require_once 'app/Views/layout/header.php'; ?>
 
 <div class="row align-items-center mb-4 text-center text-md-start">
     <div class="col">
@@ -42,4 +42,4 @@
     <?php endif; ?>
 </div>
 
-<?php require_once '../app/Views/layout/footer.php'; ?>
+<?php require_once 'app/Views/layout/footer.php'; ?>

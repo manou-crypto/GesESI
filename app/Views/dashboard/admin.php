@@ -1,4 +1,4 @@
-<?php require_once '../app/Views/layout/header.php'; ?>
+<?php require_once 'app/Views/layout/header.php'; ?>
 
 <!-- Content Header -->
 <div class="row mb-4">
@@ -47,4 +47,4 @@
     </div>
 </div>
 
-<?php require_once '../app/Views/layout/footer.php'; ?>
+<?php require_once 'app/Views/layout/footer.php'; ?>

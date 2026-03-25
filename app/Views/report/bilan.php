@@ -1,4 +1,4 @@
-<?php require_once '../app/Views/layout/header.php'; ?>
+<?php require_once 'app/Views/layout/header.php'; ?>
 
 <style>
     .transcript-table th, .transcript-table td {
@@ -123,4 +123,4 @@
     </table>
 </div>
 
-<?php require_once '../app/Views/layout/footer.php'; ?>
+<?php require_once 'app/Views/layout/footer.php'; ?>

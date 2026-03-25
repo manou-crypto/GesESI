@@ -1,4 +1,4 @@
-<?php require_once '../app/Views/layout/header.php'; ?>
+<?php require_once 'app/Views/layout/header.php'; ?>
 
 <div class="row">
     <div class="col-12 text-white p-4 rounded d-flex align-items-center mb-4 mt-3 shadow-sm" style="background: linear-gradient(90deg, #00BFFF, #87CEEB);">
@@ -51,4 +51,4 @@
     </div>
 </div>
 
-<?php require_once '../app/Views/layout/footer.php'; ?>
+<?php require_once 'app/Views/layout/footer.php'; ?>
